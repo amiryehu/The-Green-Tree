@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run stop && concurrently \"npm run server\" ",
     "build": "react-scripts build",
-    "expose": "ngrok http 8301",
+    "expose": "ngrok http 4040",
     "server": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

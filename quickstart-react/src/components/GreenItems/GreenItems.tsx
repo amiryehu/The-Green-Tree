@@ -1,80 +1,54 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../App";
-import {
-  DataContainer,
-  SuccessMessage,
-  Row,
-  BoltNumber,
-} from "./GreenItem-styles";
-import { data, mocItemsArr } from "../../halpers/mocData";
-import {
-  getAllItemsFromAllBoard,
-  getBoardIds,
-  getItemsFromBoard,
-} from "../../halpers";
-import { Item } from "../../halpers/consts";
+import { DataContainer, SuccessMessage, Row } from "./GreenItem-styles";
+
+import { fetchData, getItemsFromBoard } from "../../halpers";
+import { Item, Numbers } from "../../halpers/consts";
 import { countAllItemsAndMyItems } from "../../halpers/functions";
 
-// const toDeleteBoardId = [63206909, 2362992184];
-
 const GreenItems = () => {
-  const {
-    boardsIds,
-    setBoardsIds,
-    allItems,
-    setAllItems,
-    myItems,
-    setMyItems,
-    counterAllItems,
-    setCounterAllItems,
-    counterMyItems,
-    setCounterMyItems,
-  }: any = useContext(AppContext);
-  /*
+  const [allNumbers, setAllNumbers] = useState<Numbers>();
+  const { allItems, setAllItems }: any = useContext(AppContext);
+
   const arrangeAllBoardsIds = async () => {
-    //get all boards Id
-    const allBoardsId = await getBoardIds();
-    setBoardsIds(() => allBoardsId);
+    const { data } = await fetchData();
 
-    const promises = allBoardsId.map((id) => getItemsFromBoard(id));
-    const result = await Promise.all(promises);
-
-    //set all Item to arr [{name: "" , creator: {id: 1234 }}]
-    const itemsInOneArray = result.map((board) => {
-      board.map((item: Item) => {
-        setAllItems((pervItems: Item[]) => [...pervItems, item]);
-      });
-    });
-
-    console.log(result);
+    const items: Item[] = await getItemsFromBoard();
+    console.log(items);
+    items.map((item: Item) =>
+      setAllItems((prevItems: Item[]) => [...prevItems, item])
+    );
+    const allNumbers = countAllItemsAndMyItems(items, parseInt(data.user.id));
+    setAllNumbers(allNumbers);
+    console.log(allNumbers);
     console.log(allItems);
+
+    return items;
   };
-*/
 
-  // useEffect(() => {
-  // //arramge all data
-  // arrangeAllBoardsIds();
-  // }, []);
+  useEffect(() => {
+    //arramge all data
+    arrangeAllBoardsIds();
 
-  const numbers = countAllItemsAndMyItems(mocItemsArr, data.account_id);
-
-  console.log(numbers);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <DataContainer>
-      <SuccessMessage>Hi Amir!</SuccessMessage>
+      <SuccessMessage>Hi Jordi! </SuccessMessage>
       <Row>
-        Amount of words written in your teams board: {numbers.counterAllItems}
+        Amount of words written in your teams board:{" "}
+        {allNumbers?.counterAllItems}
       </Row>
       <Row>
         Amount of words <strong>you</strong> wrote in the board:{" "}
-        {numbers.counterMyItems}
+        {allNumbers?.counterMyItems}
       </Row>
-      <Row>My part in the team: {numbers.myPart}%</Row>
+      <Row>My part in the team: {allNumbers?.myPart}%</Row>
       <div>
         <SuccessMessage>Good job!</SuccessMessage>
         <SuccessMessage>
-          You managed to save <strong>{numbers.paperISave}</strong> trees!
+          You managed to save <strong>{allNumbers?.paperISave}</strong> papers!
         </SuccessMessage>
       </div>
     </DataContainer>
@@ -82,6 +56,3 @@ const GreenItems = () => {
 };
 
 export default GreenItems;
-
-// const allItemsFromAllBoard = await getAllItemsFromAllBoard(allBoardsId);
-// console.log(allItemsFromAllBoard);
