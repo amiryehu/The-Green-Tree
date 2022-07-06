@@ -1,30 +1,34 @@
 import styled from "styled-components";
+import backgroundImage from "../../image/mondayBackground2.png";
 
 export const DataContainer = styled.div`
-  width: 450px;
+  /* width: 100%; */
+  /* min-width: 500px; */
+  /* height: 100vh; */
+  /* min-height: 370px; */
   height: 400px;
+  width: 600px;
   padding-left: 55px;
   display: flex;
-  gap: 20px;
+  gap: 5px;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #26a871;
+  padding-top: 15px;
+  background-image: url(${backgroundImage});
+  background-position: center;
+  background-size: cover;
+  align-items: center;
   border: 1px solid gray;
   border-radius: 16px;
-  box-shadow: 5px 10px 18px #888888;
-  color: white;
+  color: black;
 `;
 
 export const Row = styled.div`
-  font-size: 20px;
+  color: #3c96fb;
+  font-size: 24px;
   font-weight: 400;
 `;
 export const SuccessMessage = styled.div`
-  font-size: 25px;
-  font-weight: 400;
-`;
-
-export const BoltNumber = styled.div`
-  font-size: 35px;
+  color: #3c96fb;
+  font-size: 48px;
+  font-weight: 800;
 `;

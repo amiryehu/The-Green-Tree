@@ -4,7 +4,28 @@ export const queries = {
             id
         }
     }`,
+  getUser: `query ($userId: [Int]!){
+    users (ids: $userId){
+      name
+      id
+    }
+  }`,
   getAllItemsFromBoardById: `query ($boardIds: [Int]!){
+      boards (ids:$boardIds) {
+        name
+        items {
+          name
+          updates {
+            text_body
+          }
+          creator {
+            id
+            name
+          } 
+        }
+      }
+    }`,
+  getAllUsers: `query ($boardIds: [Int]!){
       boards (ids:$boardIds) {
         name
         items {

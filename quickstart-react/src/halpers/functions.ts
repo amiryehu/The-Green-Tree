@@ -3,21 +3,26 @@ import { Item } from "./consts";
 export const countAllItemsAndMyItems = (items: Item[], userId: number) => {
   let counterAllItems = 0;
   let counterMyItems = 0;
-  let countUpdates = 0;
+  type ObjType = { name: string; numOfWords: number };
+  let users: { [key: number]: ObjType } = {};
 
   items.forEach((item) => {
-    const numOfWords = item.name.split(" ").length;
+    let numOfWords = item.name.split(" ").length;
 
     item.updates.forEach((update) => {
-      countUpdates += update.text_body.split(" ").length;
+      numOfWords += update.text_body.split(" ").length;
     });
 
-    counterAllItems = counterAllItems + numOfWords + countUpdates;
+    counterAllItems = counterAllItems + numOfWords;
 
-    if (item.creator.id === userId) {
-      counterMyItems = counterMyItems + numOfWords + countUpdates;
-    }
-    countUpdates = 0;
+    // if (item.creator.id === userId) {
+    //   counterMyItems = counterMyItems + numOfWords + countUpdates;
+    // }
+    const usersCurrentValue = users[item.creator.id]?.numOfWords ?? 0;
+    users[item.creator.id] = {
+      name: item.creator.name,
+      numOfWords: usersCurrentValue + numOfWords,
+    };
   });
 
   const myPart = Math.ceil((counterMyItems / counterAllItems) * 100);
@@ -28,5 +33,6 @@ export const countAllItemsAndMyItems = (items: Item[], userId: number) => {
     counterMyItems: counterMyItems,
     myPart: myPart,
     paperISave: paperISave,
+    users,
   };
 };

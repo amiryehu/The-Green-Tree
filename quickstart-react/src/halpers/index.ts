@@ -16,15 +16,28 @@ export const getAllItemsInCurrentBoard = async () => {
 
 export const getItemsFromBoard = async () => {
   const { data } = await fetchData();
-  console.log(data);
-  console.log(data.user.id);
 
   const itemsInBoard = await monday
     .api(queries.getAllItemsFromBoardById, {
-      variables: { boardIds: data.boardIds[0] },
+      variables: { boardIds: /*data.boardIds[0]*/ 2724034441 },
     })
     .then((res: any) => {
+      console.log(res?.data);
+
       return res?.data?.boards[0]?.items;
+    });
+  return itemsInBoard;
+};
+
+export const getUserAccount = async (userId: number) => {
+  const { data } = await fetchData();
+
+  const itemsInBoard = await monday
+    .api(queries.getUser, {
+      variables: { userId: userId },
+    })
+    .then((res: any) => {
+      return res?.data?.users[0];
     });
   return itemsInBoard;
 };
