@@ -7,46 +7,58 @@ import {
   getItemsFromBoard,
   getUserAccount,
 } from "../../halpers";
-import { Item, Numbers, User } from "../../halpers/consts";
+import { Item, IUserData, User } from "../../halpers/interfaces";
 import { countAllItemsAndMyItems } from "../../halpers/functions";
 
 const GreenItems = () => {
-  const [allNumbers, setAllNumbers] = useState<Numbers>();
+  const [usersItemsData, setUsersItemsData] = useState<IUserData>();
   const [boardName, setBoardName] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const arrangeAllBoardsIds = async () => {
+  const getBoardData = async () => {
     const { data } = await fetchData();
-    const tempUserId = parseInt(data.user.id);
+    // const tempUserId = parseInt(data.user.id);
     // console.log(data);
 
-    const user: User = await getUserAccount(tempUserId);
-    console.log(user);
-
     const tempBoardName = await getBoardName();
+    console.log(tempBoardName);
     setBoardName(tempBoardName);
 
     const items: Item[] = await getItemsFromBoard();
-    console.log(items);
 
-    // setAllItems(items);
-    const allNumbers = countAllItemsAndMyItems(items, user.id);
-    setAllNumbers(allNumbers);
-    console.log(allNumbers);
+    const itemsData = countAllItemsAndMyItems(items, data.user.id);
+    itemsData.users = formatUserData(itemsData.users);
+    setUsersItemsData(itemsData);
+    setLoading(false);
   };
 
+  const formatUserData = (userData: any) => {
+    const dataArr = [];
+    for (const key in userData) {
+      dataArr.push(userData[key]);
+    }
+    return dataArr;
+  };
   useEffect(() => {
-    arrangeAllBoardsIds();
+    getBoardData();
   }, []);
 
   return (
     <DataContainer>
-      <div>
-        <SuccessMessage>This is {boardName} board! </SuccessMessage>
-        <Row>
-          You managed to save <strong>{allNumbers?.paperISave}</strong> papers!
-        </Row>
-      </div>
-      {allNumbers?.counterAllItems && <TreeArea data={allNumbers} />}
+      {loading ? (
+        <div>loading...</div>
+      ) : (
+        <>
+          <div style={{ height: 130 }}>
+            <SuccessMessage>This is {boardName} board! </SuccessMessage>
+            <Row>
+              You managed to save <strong>{usersItemsData?.paperISave}</strong>
+              papers!
+            </Row>
+          </div>
+          <TreeArea data={usersItemsData} />
+        </>
+      )}
     </DataContainer>
   );
 };

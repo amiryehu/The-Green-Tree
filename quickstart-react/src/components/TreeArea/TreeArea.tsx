@@ -13,7 +13,6 @@ export enum TREE_SIZE {
 }
 
 const TreeArea = ({ data }: ITreeArea) => {
-  console.log(data);
   const { counterAllItems, users } = data;
 
   const calculateTreeSize = (treeAmount: number) => {
@@ -30,21 +29,15 @@ const TreeArea = ({ data }: ITreeArea) => {
         return TREE_SIZE.LARGE;
     }
   };
-  const dataArr = [];
-  for (const key in users) {
-    dataArr.push(users[key]);
-  }
 
-  console.log(dataArr);
   return (
     <Container>
-      {dataArr?.map((userData) => (
+      {users?.map((userData: any, index: number) => (
         <Tree
           size={calculateTreeSize(userData.numOfWords)}
-          // size={TREE_SIZE.LARGE}
           name={userData.name}
-          words={userData.numOfWords}
-          key={userData.name}
+          numOfWords={userData.numOfWords}
+          key={index}
         />
       ))}
     </Container>

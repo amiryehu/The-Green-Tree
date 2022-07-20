@@ -1,7 +1,5 @@
 import React from "react";
-// import { Tree } from "../../halpers/consts";
-import Tooltip from "@mui/material/Tooltip";
-import { TreeStyle } from "./Tree-styles";
+import ReactTooltip from "react-tooltip";
 import { TREE_SIZE } from "../TreeArea/TreeArea";
 
 import smallTreeUrl from "../../image/smallTree.png";
@@ -11,7 +9,7 @@ import largeTreeUrl from "../../image/largeTree.png";
 interface ITree {
   size: TREE_SIZE;
   name: string;
-  words: number;
+  numOfWords: number;
 }
 
 const getUrlBySize = (size: TREE_SIZE) => {
@@ -27,13 +25,19 @@ const getUrlBySize = (size: TREE_SIZE) => {
   }
 };
 
-const Tree = ({ size, name, words }: ITree) => {
-  const text = `This is ${name}'s tree - who wrote ${words} words`;
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
+const Tree = ({ size, name, numOfWords }: ITree) => {
+  const text = `This is ${name}'s tree - who wrote ${numOfWords} words`;
   return (
-    <Tooltip title={text} arrow placement="top" followCursor>
-      <TreeStyle iamgeUrl={getUrlBySize(size)} />
-      {/* <div>tree</div> */}
-    </Tooltip>
+    <div>
+      <div data-tip={text} style={{ marginTop: getRandomInt(170) }}>
+        <ReactTooltip />
+        <img src={getUrlBySize(size)} style={{ width: 50 }} />
+      </div>
+    </div>
   );
 };
 

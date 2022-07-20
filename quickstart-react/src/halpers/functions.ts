@@ -18,11 +18,13 @@ export const countAllItemsAndMyItems = (items: Item[], userId: number) => {
     // if (item.creator.id === userId) {
     //   counterMyItems = counterMyItems + numOfWords + countUpdates;
     // }
-    const usersCurrentValue = users[item.creator.id]?.numOfWords ?? 0;
-    users[item.creator.id] = {
-      name: item.creator.name,
-      numOfWords: usersCurrentValue + numOfWords,
-    };
+    if (item?.creator?.id) {
+      const usersCurrentValue = users[item?.creator?.id]?.numOfWords ?? 0;
+      users[item.creator.id] = {
+        name: item.creator.name,
+        numOfWords: usersCurrentValue + numOfWords,
+      };
+    }
   });
 
   const myPart = Math.ceil((counterMyItems / counterAllItems) * 100);
