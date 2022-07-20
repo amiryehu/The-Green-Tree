@@ -15,23 +15,33 @@ export const getAllItemsInCurrentBoard = async () => {
 };
 
 export const getItemsFromBoard = async () => {
-  const { data } = await fetchData();
-
   const itemsInBoard = await monday
     .api(queries.getAllItemsFromBoardById, {
       variables: { boardIds: /*data.boardIds[0]*/ 2724034441 },
     })
     .then((res: any) => {
-      console.log(res?.data);
+      console.log(res?.data?.boards[0]);
 
       return res?.data?.boards[0]?.items;
     });
   return itemsInBoard;
 };
 
-export const getUserAccount = async (userId: number) => {
-  const { data } = await fetchData();
+export const getBoardName = async () => {
+  const boardName = await monday
+    .api(queries.getBoardNameById, {
+      variables: { boardIds: /*data.boardIds[0]*/ 2724034441 },
+    })
+    .then((res: any) => {
+      // console.log(res?.data);
+      // console.log(res?.data?.boards[0].name);
 
+      return res?.data?.boards[0].name;
+    });
+  return boardName;
+};
+
+export const getUserAccount = async (userId: number) => {
   const itemsInBoard = await monday
     .api(queries.getUser, {
       variables: { userId: userId },
@@ -41,16 +51,3 @@ export const getUserAccount = async (userId: number) => {
     });
   return itemsInBoard;
 };
-
-// export const getAllItemsFromAllBoard = async (boardId: number[]) => {
-//   let allItems: object[] = [];
-
-//   boardId.forEach(async (id) => {
-//     const data = await monday.api(queries.getAllItemsFromBoardById, {
-//       variables: { boardIds: [id] },
-//     });
-//     allItems.push(data.data);
-//   });
-
-//   return allItems;
-// };

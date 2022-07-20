@@ -22,9 +22,9 @@ export interface User {
   id: number;
 }
 
-export interface Tree {
-  iamgeUrl: string;
-  color: string;
-  height: string;
-  width: string;
-}
+// export interface Tree {
+//   iamgeUrl: string;
+//   color: string;
+//   height: string;
+//   width: string;
+// }

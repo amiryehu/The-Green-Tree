@@ -2,7 +2,13 @@ export const queries = {
   getBoardIds: `query {
         boards {
             id
+            name
         }
+    }`,
+  getBoardNameById: `query ($boardIds: [Int]!){
+      boards (ids:$boardIds) {
+        name
+      }
     }`,
   getUser: `query ($userId: [Int]!){
     users (ids: $userId){

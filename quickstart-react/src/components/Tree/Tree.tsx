@@ -1,20 +1,38 @@
 import React from "react";
-import { Tree } from "../../halpers/consts";
+// import { Tree } from "../../halpers/consts";
 import Tooltip from "@mui/material/Tooltip";
 import { TreeStyle } from "./Tree-styles";
+import { TREE_SIZE } from "../TreeArea/TreeArea";
 
-// export interface Tree {
-//     imgUrl: string;
-//     color: string;
-//     height: string;
-//     width: string;
-//   }
+import smallTreeUrl from "../../image/smallTree.png";
+import mediumTreeUrl from "../../image/mediumTree.png";
+import largeTreeUrl from "../../image/largeTree.png";
 
-const Tree = (tree: Tree) => {
-  const text = "tooltip";
+interface ITree {
+  size: TREE_SIZE;
+  name: string;
+  words: number;
+}
+
+const getUrlBySize = (size: TREE_SIZE) => {
+  switch (size) {
+    case TREE_SIZE.SMALL:
+      return smallTreeUrl;
+
+    case TREE_SIZE.MEDIUM:
+      return mediumTreeUrl;
+
+    default:
+      return largeTreeUrl;
+  }
+};
+
+const Tree = ({ size, name, words }: ITree) => {
+  const text = `This is ${name}'s tree - who wrote ${words} words`;
   return (
     <Tooltip title={text} arrow placement="top" followCursor>
-      <TreeStyle iamgeUrl={tree.iamgeUrl}>Tree</TreeStyle>
+      <TreeStyle iamgeUrl={getUrlBySize(size)} />
+      {/* <div>tree</div> */}
     </Tooltip>
   );
 };
