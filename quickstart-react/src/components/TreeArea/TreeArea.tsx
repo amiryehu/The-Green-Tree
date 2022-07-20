@@ -1,6 +1,7 @@
 import React from "react";
 import { Container } from "./styles";
 import Tree from "../Tree/Tree";
+import { IUserData, User } from "../../halpers/interfaces";
 
 interface ITreeArea {
   data: any; //todo fix type
@@ -15,18 +16,24 @@ export enum TREE_SIZE {
 const TreeArea = ({ data }: ITreeArea) => {
   const { counterAllItems, users } = data;
 
-  const calculateTreeSize = (treeAmount: number) => {
-    if (!treeAmount) {
-      return TREE_SIZE.SMALL;
-    }
-    const wordsCalculation = counterAllItems / treeAmount;
+  const third = Math.ceil(users.length / 3);
+
+  const calculateTreeSize = (userName: string) => {
+    const position = users.findIndex(
+      (user: { name: any }) => user.name === userName
+    );
+
+    console.log(userName);
+    console.log(users);
+    console.log(position, third);
+
     switch (true) {
-      case wordsCalculation >= 3:
-        return TREE_SIZE.SMALL;
-      case 1.5 << wordsCalculation < 3:
+      case position <= third:
+        return TREE_SIZE.LARGE;
+      case third < position && position < third * 2:
         return TREE_SIZE.MEDIUM;
       default:
-        return TREE_SIZE.LARGE;
+        return TREE_SIZE.SMALL;
     }
   };
 
@@ -34,7 +41,7 @@ const TreeArea = ({ data }: ITreeArea) => {
     <Container>
       {users?.map((userData: any, index: number) => (
         <Tree
-          size={calculateTreeSize(userData.numOfWords)}
+          size={calculateTreeSize(userData.name)}
           name={userData.name}
           numOfWords={userData.numOfWords}
           key={index}

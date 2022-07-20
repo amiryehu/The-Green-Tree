@@ -5,9 +5,9 @@ import {
   fetchData,
   getBoardName,
   getItemsFromBoard,
-  getUserAccount,
+  // getUserAccount,
 } from "../../halpers";
-import { Item, IUserData, User } from "../../halpers/interfaces";
+import { Item, IUserData /*, User*/ } from "../../halpers/interfaces";
 import { countAllItemsAndMyItems } from "../../halpers/functions";
 
 const GreenItems = () => {
@@ -18,7 +18,7 @@ const GreenItems = () => {
   const getBoardData = async () => {
     const { data } = await fetchData();
     // const tempUserId = parseInt(data.user.id);
-    // console.log(data);
+    console.log(data);
 
     const tempBoardName = await getBoardName();
     console.log(tempBoardName);
@@ -30,6 +30,7 @@ const GreenItems = () => {
     itemsData.users = formatUserData(itemsData.users);
     setUsersItemsData(itemsData);
     setLoading(false);
+    console.log(itemsData);
   };
 
   const formatUserData = (userData: any) => {
@@ -37,8 +38,13 @@ const GreenItems = () => {
     for (const key in userData) {
       dataArr.push(userData[key]);
     }
-    return dataArr;
+    const sortedData = dataArr.sort(
+      ({ numOfWords: a }, { numOfWords: b }) => b - a
+    );
+
+    return sortedData;
   };
+
   useEffect(() => {
     getBoardData();
   }, []);
@@ -52,7 +58,7 @@ const GreenItems = () => {
           <div style={{ height: 130 }}>
             <SuccessMessage>This is {boardName} board! </SuccessMessage>
             <Row>
-              You managed to save <strong>{usersItemsData?.paperISave}</strong>
+              You managed to save <strong>{usersItemsData?.paperISave}</strong>{" "}
               papers!
             </Row>
           </div>

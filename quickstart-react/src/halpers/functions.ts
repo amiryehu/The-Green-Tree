@@ -15,9 +15,9 @@ export const countAllItemsAndMyItems = (items: Item[], userId: number) => {
 
     counterAllItems = counterAllItems + numOfWords;
 
-    // if (item.creator.id === userId) {
-    //   counterMyItems = counterMyItems + numOfWords + countUpdates;
-    // }
+    if (item?.creator?.id == userId) {
+      counterMyItems = counterMyItems + numOfWords;
+    }
     if (item?.creator?.id) {
       const usersCurrentValue = users[item?.creator?.id]?.numOfWords ?? 0;
       users[item.creator.id] = {
@@ -26,9 +26,10 @@ export const countAllItemsAndMyItems = (items: Item[], userId: number) => {
       };
     }
   });
+  const myPart = Math.ceil((users[userId].numOfWords / counterAllItems) * 100);
+  console.log(users[userId].numOfWords);
 
-  const myPart = Math.ceil((counterMyItems / counterAllItems) * 100);
-  const paperISave = Math.ceil(counterMyItems / 250);
+  const paperISave = Math.ceil(users[userId].numOfWords / 250);
 
   return {
     counterAllItems: counterAllItems,

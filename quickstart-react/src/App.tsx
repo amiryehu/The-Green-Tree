@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import "monday-ui-react-core/dist/main.css";
 // Explore more Monday React Components here: https://style.monday.com/

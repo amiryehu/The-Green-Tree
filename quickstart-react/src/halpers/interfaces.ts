@@ -14,7 +14,7 @@ export interface IUserData {
 
 export interface User {
   name: string;
-  id: number;
+  numOfWords: number;
 }
 
 interface userItemData {}
