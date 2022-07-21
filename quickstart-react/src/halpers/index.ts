@@ -14,10 +14,10 @@ export const getAllItemsInCurrentBoard = async () => {
   return itemsInBoard;
 };
 
-export const getItemsFromBoard = async () => {
+export const getItemsFromBoard = async (boardId: number) => {
   const itemsInBoard = await monday
     .api(queries.getAllItemsFromBoardById, {
-      variables: { boardIds: /*data.boardIds[0]*/ 2724034441 },
+      variables: { boardIds: boardId /*2724034441*/ },
     })
     .then((res: any) => {
       return res?.data?.boards[0]?.items;
@@ -28,10 +28,10 @@ export const getItemsFromBoard = async () => {
   return itemsInBoard;
 };
 
-export const getBoardName = async () => {
+export const getBoardName = async (boardId: number) => {
   const boardName = await monday
     .api(queries.getBoardNameById, {
-      variables: { boardIds: /*data.boardIds[0]*/ 2724034441 },
+      variables: { boardIds: boardId /*2724034441*/ },
     })
     .then((res: any) => {
       // console.log(res?.data);
